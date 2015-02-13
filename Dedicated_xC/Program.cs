@@ -14,11 +14,11 @@ namespace Dedicated_xC
         private static TcpClient client;
         static void Main(string[] args)
         {
+            Console.WriteLine("Version 1.2");
             Console.Write("Ip : ");
             string ip = Console.ReadLine();
             Console.Write("Port : ");
             string port = Console.ReadLine();
-            Console.WriteLine("Starting Server ....");
             Start(ip, port);
 
         }
@@ -35,6 +35,8 @@ namespace Dedicated_xC
                     int Port = Convert.ToInt32(port);
                     client = new TcpClient(ip, Port);
                     Console.WriteLine("Connected");
+                    Thread msgSend = new Thread(MsgHandler);
+                    msgSend.Start();
                     State = HandlingSteam();
                 }
                 catch (SocketException e)
@@ -107,6 +109,24 @@ namespace Dedicated_xC
             }
             return State;
              
+        }
+
+        public static void MsgHandler()
+        {
+            NetworkStream clientStream = client.GetStream();
+            ASCIIEncoding encoder = new ASCIIEncoding();
+            string msg;
+            while (true)
+            {
+                msg = Console.ReadLine();
+                if (msg != "")
+                {
+                    byte[] buffer = encoder.GetBytes(msg);
+                    clientStream.Write(buffer, 0, buffer.Length);
+                    clientStream.Flush();
+                }
+                Thread.Sleep(250);
+            }
         }
 
         public static void FileReceiv()

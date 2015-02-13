@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Dedicated_x(Client_Sending).exe" size="6656">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Dedicated_x(Client_Sending).exe" size="7640">
       <assemblyIdentity name="Dedicated_x(Client_Sending)" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>qhgJAM/NmF8UKiG5qsBRr+bMNb5tmcS4eOEqO/KdnHY=</dsig:DigestValue>
+        <dsig:DigestValue>hfedNoGNPI5yp5e9qxxF6prg+1ptb1ua4t0iM9ASU7E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
