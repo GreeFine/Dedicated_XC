@@ -1,0 +1,6 @@
+c:\users\greefine\documents\visual studio 2013\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+c:\users\greefine\documents\visual studio 2013\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Dedicated_x(Client_Sending).exe.config
+c:\users\greefine\documents\visual studio 2013\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Dedicated_x(Client_Sending).exe
+c:\users\greefine\documents\visual studio 2013\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Dedicated_x(Client_Sending).pdb
+c:\users\greefine\documents\visual studio 2013\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\Dedicated_x(Client_Sending).exe
+c:\users\greefine\documents\visual studio 2013\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\Dedicated_x(Client_Sending).pdb
