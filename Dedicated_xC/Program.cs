@@ -14,7 +14,7 @@ namespace Dedicated_xC
         private static TcpClient client;
         static void Main(string[] args)
         {
-            Console.WriteLine("Version 1.2");
+            Console.WriteLine("Version 1.4");
             Console.Write("Ip : ");
             string ip = Console.ReadLine();
             Console.Write("Port : ");
@@ -92,10 +92,10 @@ namespace Dedicated_xC
                     }
 
                 }
-                catch
+                catch (Exception ex)
                 {
                     //a socket error has occured
-                    Console.WriteLine("Socket Error");
+                    Console.WriteLine(ex);
                     x = false;
                     State = true;
                 }
@@ -131,56 +131,40 @@ namespace Dedicated_xC
 
         public static void FileReceiv()
         {
-            byte[] RecData = new byte[1024];
+            byte[] RecData = new byte[4096];
             int RecBytes;
-            bool k =false;
             string ReceiveData;
             NetworkStream clientStream = client.GetStream();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/SendFile";
-            FileStream Fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
             ASCIIEncoding encoder = new ASCIIEncoding();
-            try {
-                bool x = true;
-                while (x)
-                {
-                    RecBytes = clientStream.Read(RecData, 0, RecData.Length);
-                    ReceiveData = encoder.GetString(RecData);
-                    Console.WriteLine(ReceiveData);
-                    if (ReceiveData == "00101")
-                    {
-                        k = true;
-                        ReceiveData = "";
-                    }
-                    if (k)
-                    {
-                        if (ReceiveData == "10100")
-                        {
-                            Console.Write(" Done");
-                            k = false;
-                            x = false;
-                        }
-                        else
-                        {
-                            if (ReceiveData != "")
-                            {
-                                Console.Write(" .");
-                                Fs.Write(RecData, 0, RecBytes);
-                                Fs.Close();
-                            }
+            BinaryWriter Br = new BinaryWriter(File.Open(path, FileMode.CreateNew));
+            try
+            {
+                //Receive and calculate Buffer Size needed
+                RecBytes = clientStream.Read(RecData, 0, RecData.Length);
+                string BufferSize_R = encoder.GetString(RecData);
+                int _bufferSize = Convert.ToInt32(BufferSize_R);
+                byte[] BufferSize = new byte[_bufferSize];
 
-                        }
+                //Send Validation
+                byte[] buffer = encoder.GetBytes("10101");
+                clientStream.Write(buffer, 0, buffer.Length);
+                clientStream.Flush();
 
-                    }
-
-                }
-                       
+                //Receive the file
+                RecBytes = clientStream.Read(BufferSize, 0, BufferSize.Length);
+                ReceiveData = encoder.GetString(BufferSize);
+                Br.Write(BufferSize, 0, RecBytes);
+                Br.Close();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                //netstream.Close();
             }
+            Console.Write(" Done");
         }
+
+
 
 
     }
