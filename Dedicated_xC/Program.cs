@@ -14,7 +14,7 @@ namespace Dedicated_xC
         private static TcpClient client;
         static void Main(string[] args)
         {
-            Console.WriteLine("Version 1.4");
+            Console.WriteLine("Version 1.5");
             Console.Write("Ip : ");
             string ip = Console.ReadLine();
             Console.Write("Port : ");
@@ -133,29 +133,18 @@ namespace Dedicated_xC
         {
             byte[] RecData = new byte[4096];
             int RecBytes;
-            string ReceiveData;
             NetworkStream clientStream = client.GetStream();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/SendFile";
-            ASCIIEncoding encoder = new ASCIIEncoding();
-            BinaryWriter Br = new BinaryWriter(File.Open(path, FileMode.CreateNew));
             try
             {
-                //Receive and calculate Buffer Size needed
-                RecBytes = clientStream.Read(RecData, 0, RecData.Length);
-                string BufferSize_R = encoder.GetString(RecData);
-                int _bufferSize = Convert.ToInt32(BufferSize_R);
-                byte[] BufferSize = new byte[_bufferSize];
-
-                //Send Validation
-                byte[] buffer = encoder.GetBytes("10101");
-                clientStream.Write(buffer, 0, buffer.Length);
-                clientStream.Flush();
-
-                //Receive the file
-                RecBytes = clientStream.Read(BufferSize, 0, BufferSize.Length);
-                ReceiveData = encoder.GetString(BufferSize);
-                Br.Write(BufferSize, 0, RecBytes);
-                Br.Close();
+                int totalrecbytes = 0;
+                FileStream Fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+                while ((RecBytes = clientStream.Read(RecData, 0, RecData.Length)) > 0)
+                {
+                    Fs.Write(RecData, 0, RecBytes);
+                    totalrecbytes += RecBytes;
+                }
+                Fs.Close();
             }
             catch (Exception ex)
             {
